@@ -7,21 +7,30 @@
 }*/
 
 
+import img1 from "../../assets/images/image_2.png";
+import img2 from "../../assets/images/image_4.png";
+import img3 from "../../assets/images/image_5.png";
+import img4 from "../../assets/images/image_7.png";
+import img5 from "../../assets/images/image_6.png";
+
+
+
+
 import { useState } from "react";
 import styled from "styled-components";
 
 // 임시 상품 데이터
 const PRODUCTS = [
-  { id: 1, name: "아이앱 스튜디오 25 후드 라이트 그레이", price: 145000, reviews: 1561, image: "https://placehold.co/200x200?text=상품1" },
-  { id: 2, name: "아이앱 스튜디오 25 후드 라이트 블루", price: 145000, reviews: 1732, image: "https://placehold.co/200x200?text=상품2" },
-  { id: 3, name: "아디다스 블랙 재지 2016", price: 255000, reviews: 781, image: "https://placehold.co/200x200?text=상품3" },
-  { id: 4, name: "슈프림 후드집업 30 딥블루", price: 458000, reviews: 2567, image: "https://placehold.co/200x200?text=상품4" },
-  { id: 5, name: "나이키 에어 그레이 하운드 25", price: 235000, reviews: 231, image: "https://placehold.co/200x200?text=상품5" },
-  { id: 6, name: "아이앱 스튜디오 25 후드 라이트 그레이", price: 145000, reviews: 1561, image: "https://placehold.co/200x200?text=상품6" },
-  { id: 7, name: "아이앱 스튜디오 25 후드 라이트 블루", price: 145000, reviews: 1732, image: "https://placehold.co/200x200?text=상품7" },
-  { id: 8, name: "아디다스 블랙 재지 2016", price: 255000, reviews: 781, image: "https://placehold.co/200x200?text=상품8" },
-  { id: 9, name: "슈프림 후드집업 30 딥블루", price: 458000, reviews: 2587, image: "https://placehold.co/200x200?text=상품9" },
-  { id: 10, name: "나이키 에어 그레이 하운드 25", price: 235000, reviews: 231, image: "https://placehold.co/200x200?text=상품10" },
+  { id: 1, name: "아이앱 스튜디오 25 후드 라이트 그레이", price: 145000, reviews: 1561, image: img1 },
+  { id: 2, name: "아이앱 스튜디오 25 후드 라이트 블루", price: 145000, reviews: 1732, image: img2 },
+  { id: 3, name: "아디다스 블랙 재지 2016", price: 255000, reviews: 781, image: img3 },
+  { id: 4, name: "슈프림 후드집업 30 딥블루", price: 458000, reviews: 2567, image: img4 },
+  { id: 5, name: "나이키 에어 그레이 하운드 25", price: 235000, reviews: 231, image: img5 },
+  { id: 6, name: "아이앱 스튜디오 25 후드 라이트 그레이", price: 145000, reviews: 1561, image: img1 },
+  { id: 7, name: "아이앱 스튜디오 25 후드 라이트 블루", price: 145000, reviews: 1732, image: img2 },
+  { id: 8, name: "아디다스 블랙 재지 2016", price: 255000, reviews: 781, image: img3 },
+  { id: 9, name: "슈프림 후드집업 30 딥블루", price: 458000, reviews: 2587, image: img4 },
+  { id: 10, name: "나이키 에어 그레이 하운드 25", price: 235000, reviews: 231, image: img5 },
 ];
 
 const FILTER_OPTIONS = {
@@ -146,7 +155,7 @@ const ProductImg = styled.img`
   aspect-ratio: 1;
   object-fit: cover;
   border-radius: 8px;
-  background: #f5f5f5;
+  background: #ffffff;
 `;
 
 const ProductName = styled.p`
