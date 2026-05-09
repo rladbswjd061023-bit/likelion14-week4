@@ -1,195 +1,31 @@
-/*export default function Main(){
-    return (
-        <div>
-            <div>메인페이지</div>
-        </div>
-    )
-}*/
-
-
-import img1 from "../../assets/images/image_2.png";
-import img2 from "../../assets/images/image_4.png";
-import img3 from "../../assets/images/image_5.png";
-import img4 from "../../assets/images/image_7.png";
-import img5 from "../../assets/images/image_6.png";
-
-
-
-
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { itemData } from "./ItemDummy";
 import styled from "styled-components";
 
-// 임시 상품 데이터
-const PRODUCTS = [
-  { id: 1, name: "아이앱 스튜디오 25 후드 라이트 그레이", price: 145000, reviews: 1561, image: img1 },
-  { id: 2, name: "아이앱 스튜디오 25 후드 라이트 블루", price: 145000, reviews: 1732, image: img2 },
-  { id: 3, name: "아디다스 블랙 재지 2016", price: 255000, reviews: 781, image: img3 },
-  { id: 4, name: "슈프림 후드집업 30 딥블루", price: 458000, reviews: 2567, image: img4 },
-  { id: 5, name: "나이키 에어 그레이 하운드 25", price: 235000, reviews: 231, image: img5 },
-  { id: 6, name: "아이앱 스튜디오 25 후드 라이트 그레이", price: 145000, reviews: 1561, image: img1 },
-  { id: 7, name: "아이앱 스튜디오 25 후드 라이트 블루", price: 145000, reviews: 1732, image: img2 },
-  { id: 8, name: "아디다스 블랙 재지 2016", price: 255000, reviews: 781, image: img3 },
-  { id: 9, name: "슈프림 후드집업 30 딥블루", price: 458000, reviews: 2587, image: img4 },
-  { id: 10, name: "나이키 에어 그레이 하운드 25", price: 235000, reviews: 231, image: img5 },
-];
-
-const FILTER_OPTIONS = {
-  성별: ["female", "male", "unisex"],
-  색상: ["red", "pink", "blue", "black", "gray", "denim", "rainbow", "multi", "holographic"],
-  사이즈: ["S", "M", "L", "XL", "9", "10"],
-  가격대: ["0~30$", "31~60$", "61~90$"],
-  종류: ["clothes", "shoes"],
-};
-
-const SORT_OPTIONS = ["정렬순", "가격 낮은순", "가격 높은순", "리뷰 많은순"];
-
-// 스타일
-const PageWrap = styled.div`
-  padding: 0 160px;
-`;
-
-const FilterBar = styled.div`
-  display: flex;
-  gap: 8px;
-  padding: 24px 0 16px;
-  position: relative;
-`;
-
-const FilterBtn = styled.button`
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  background: #fff;
-  font-size: 13px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-
-  &.active {
-    border-color: #222;
-    font-weight: bold;
-  }
-`;
-
-const Dropdown = styled.div`
-  position: absolute;
-  top: 56px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 12px;
-  z-index: 100;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  min-width: 200px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-`;
-
-const OptionBtn = styled.button`
-  padding: 6px 14px;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  background: #fff;
-  font-size: 13px;
-  cursor: pointer;
-
-  &.selected {
-    background: #222;
-    color: #fff;
-    border-color: #222;
-  }
-`;
-
-const SortRow = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding: 8px 0;
-  position: relative;
-`;
-
-const SortBtn = styled.button`
-  background: none;
-  border: none;
-  font-size: 13px;
-  color: #333;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-`;
-
-const SortDropdown = styled.div`
-  position: absolute;
-  top: 36px;
-  right: 0;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  z-index: 100;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-`;
-
-const SortOption = styled.div`
-  padding: 10px 20px;
-  font-size: 13px;
-  cursor: pointer;
-  &:hover { background: #f5f5f5; }
-`;
-
-const ProductGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 24px;
-  padding: 16px 0 40px;
-`;
-
-const ProductCard = styled.div`
-  cursor: pointer;
-`;
-
-const ProductImg = styled.img`
-  width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-  border-radius: 8px;
-  background: #ffffff;
-`;
-
-const ProductName = styled.p`
-  font-size: 13px;
-  color: #222;
-  margin-top: 10px;
-`;
-
-const ProductPrice = styled.p`
-  font-size: 13px;
-  font-weight: bold;
-  color: #222;
-  margin-top: 4px;
-`;
-
-const ProductReview = styled.p`
-  font-size: 12px;
-  color: #999;
-  margin-top: 2px;
-`;
-
 export default function Main() {
-  const [openFilter, setOpenFilter] = useState(null); // 현재 열린 필터
-  const [selected, setSelected] = useState({});       // 선택된 필터값
-  const [openSort, setOpenSort] = useState(false);    // 정렬 드롭다운
+  const navigate = useNavigate();
+
+  const [openFilter, setOpenFilter] = useState(null);
+  const [selected, setSelected] = useState({});
+  const [openSort, setOpenSort] = useState(false);
   const [sortLabel, setSortLabel] = useState("정렬순");
 
-  // 필터 버튼 클릭
+  const FILTER_OPTIONS = {
+    성별: ["female", "male", "unisex"],
+    색상: ["red", "pink", "blue", "black", "gray", "denim", "rainbow", "multi", "holographic"],
+    사이즈: ["S", "M", "L", "XL", "9", "10"],
+    가격대: ["0~30$", "31~60$", "61~90$"],
+    종류: ["clothes", "shoes"],
+  };
+
+  const SORT_OPTIONS = ["정렬순", "가격 낮은순", "가격 높은순", "리뷰 많은순"];
+
   const handleFilterClick = (name) => {
     setOpenFilter(openFilter === name ? null : name);
     setOpenSort(false);
   };
 
-  // 옵션 선택/해제
   const handleOptionClick = (filterName, option) => {
     setSelected((prev) => ({
       ...prev,
@@ -197,7 +33,6 @@ export default function Main() {
     }));
   };
 
-  // 정렬 선택
   const handleSortSelect = (option) => {
     setSortLabel(option);
     setOpenSort(false);
@@ -207,7 +42,7 @@ export default function Main() {
     <PageWrap>
       {/* 필터 바 */}
       <FilterBar>
-        {Object.keys(FILTER_OPTIONS).map((filterName, idx) => (
+        {Object.keys(FILTER_OPTIONS).map((filterName) => (
           <div key={filterName} style={{ position: "relative" }}>
             <FilterBtn
               className={openFilter === filterName ? "active" : ""}
@@ -216,7 +51,6 @@ export default function Main() {
               {filterName} ∨
             </FilterBtn>
 
-            {/* 드롭다운 */}
             {openFilter === filterName && (
               <Dropdown>
                 {FILTER_OPTIONS[filterName].map((option) => (
@@ -245,22 +79,19 @@ export default function Main() {
               <SortOption key={option} onClick={() => handleSortSelect(option)}>
                 {option}
               </SortOption>
-            ))}
-          </SortDropdown>
-        )}
-      </SortRow>
 
-      {/* 상품 목록 */}
-      <ProductGrid>
-        {PRODUCTS.map((product) => (
-          <ProductCard key={product.id}>
-            <ProductImg src={product.image} alt={product.name} />
-            <ProductName>{product.name}</ProductName>
-            <ProductPrice>{product.price.toLocaleString()}원</ProductPrice>
-            <ProductReview>리뷰 {product.reviews.toLocaleString()}</ProductReview>
-          </ProductCard>
-        ))}
-      </ProductGrid>
-    </PageWrap>
-  );
-}
+
+
+
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App.jsx";
+
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>
+);

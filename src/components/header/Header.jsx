@@ -57,6 +57,7 @@ import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import logoUrl from "../../assets/images/kream_image.png";
 import homeUrl from "../../assets/icons/home_icon.png";
+import Button from "../common/button/Button";
 
 const HeaderWrap = styled.div`
   width: 100%;
@@ -103,26 +104,26 @@ const HomeIcon = styled.img`
 export default function Header() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const buttonName = "상품등록";
+
+  // 버튼을 변수로 빼기
+  const headerButton = pathname === "/" && (
+    <Button buttonName={buttonName} onClick={() => navigate("/add")} />
+  );
 
   return (
     <div>
       <HeaderWrap>
-        <LogoImage src={logoUrl} alt="KREAM 로고" />
+        {/* 로고 클릭 시 홈으로 이동 */}
+        <LogoImage
+          src={logoUrl}
+          alt="KREAM 로고"
+          onClick={() => navigate("/")}
+          style={{ cursor: "pointer" }}
+        />
         <HeaderRight>
           <NavButtons>
-            {/* 메인 페이지일 때 */}
-            {pathname === "/" && (
-              <NavBtn onClick={() => navigate("/add")}>상품등록</NavBtn>
-            )}
-
-            {/* 수정 페이지일 때 */}
-            {pathname === "/edit" && (
-              <>
-                <NavBtn onClick={() => navigate("/add")}>상품등록</NavBtn>
-                <NavBtn>상품삭제</NavBtn>
-                <NavBtn>상품수정</NavBtn>
-              </>
-            )}
+            {headerButton}
           </NavButtons>
           <HomeIcon src={homeUrl} alt="HOME" />
         </HeaderRight>
